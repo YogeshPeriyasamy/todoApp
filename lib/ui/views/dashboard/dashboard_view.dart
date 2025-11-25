@@ -61,6 +61,44 @@ class DashboardView extends StackedView<DashboardViewModel> {
                   }),
             ),
             Container(
+              margin: EdgeInsets.only(top: 10, bottom: 0, left: 50, right: 50),
+              padding: EdgeInsets.all(11),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8), color: Colors.green),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Text("Total tasks",
+                              style: TextStyle(fontWeight: FontWeight.bold))),
+                      Text(viewModel.todoList.length.toString())
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Text("Completed tasks",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ))),
+                      Text("1")
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Text(
+                        "Pending tasks",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      Text("2")
+                    ],
+                  )
+                ],
+              ),
+            ),
+            Container(
               padding: EdgeInsets.all(10),
               child: Material(
                 elevation: 8,
@@ -109,7 +147,7 @@ class DashboardView extends StackedView<DashboardViewModel> {
                       );
                     }),
               ),
-            )
+            ),
           ],
         ),
       ),
