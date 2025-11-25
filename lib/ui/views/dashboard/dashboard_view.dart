@@ -64,7 +64,7 @@ class DashboardView extends StackedView<DashboardViewModel> {
               margin: EdgeInsets.only(top: 10, bottom: 0, left: 50, right: 50),
               padding: EdgeInsets.all(11),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8), color: Colors.green),
+                  borderRadius: BorderRadius.circular(8), color: const Color.fromARGB(255, 172, 211, 243)),
               child: Column(
                 children: [
                   Row(
