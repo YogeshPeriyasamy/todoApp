@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:realtodo/app/app.locator.dart';
+import 'package:realtodo/app/app.router.dart';
 import 'package:realtodo/services/prefs_service_service.dart';
+import 'package:realtodo/services/themetoggle_service.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 import '../../../models/todo_model.dart';
 
 class DashboardViewModel extends BaseViewModel {
   final PrefsServiceService _prefService = locator<PrefsServiceService>();
+  final NavigationService navigator = locator<NavigationService>();
+  final _themeService = locator<ThemetoggleService>();
 
   List<Todo> _todos = [];
   List get todos => _todos;
 
-  bool isDarkThemed = false;
+  bool get isDarkThemed => _themeService.isDark;
 
   List<String> categoryList = ["Work", "Personal", "Home", "Urgent", "Health"];
 
@@ -32,7 +37,7 @@ class DashboardViewModel extends BaseViewModel {
   }
 
   void toggleTheme() {
-    isDarkThemed = !isDarkThemed;
+    _themeService.toggleTheme();
     notifyListeners();
   }
 
@@ -43,5 +48,9 @@ class DashboardViewModel extends BaseViewModel {
 
   void setSearch(String text) {
     searchedText = text;
+  }
+
+  void navigateToAddtaskview() {
+    navigator.navigateTo(Routes.addtaskView);
   }
 }

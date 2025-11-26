@@ -12,6 +12,7 @@ import 'package:stacked_services/src/navigation/navigation_service.dart';
 import 'package:stacked_shared/stacked_shared.dart';
 
 import '../services/prefs_service_service.dart';
+import '../services/themetoggle_service.dart';
 
 final locator = StackedLocator.instance;
 
@@ -28,4 +29,5 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => DialogService());
   locator.registerLazySingleton(() => NavigationService());
   locator.registerLazySingleton(() => PrefsServiceService());
+  locator.registerLazySingleton(() => ThemetoggleService());
 }

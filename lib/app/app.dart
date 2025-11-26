@@ -6,6 +6,8 @@ import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:realtodo/ui/views/dashboard/dashboard_view.dart';
 import 'package:realtodo/services/prefs_service_service.dart';
+import 'package:realtodo/ui/views/addtask/addtask_view.dart';
+import 'package:realtodo/services/themetoggle_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -13,6 +15,7 @@ import 'package:realtodo/services/prefs_service_service.dart';
     MaterialRoute(page: HomeView),
     MaterialRoute(page: StartupView),
     MaterialRoute(page: DashboardView),
+    MaterialRoute(page: AddtaskView),
 // @stacked-route
   ],
   dependencies: [
@@ -20,6 +23,7 @@ import 'package:realtodo/services/prefs_service_service.dart';
     LazySingleton(classType: DialogService),
     LazySingleton(classType: NavigationService),
     LazySingleton(classType: PrefsServiceService),
+    LazySingleton(classType: ThemetoggleService),
 // @stacked-service
   ],
   bottomsheets: [

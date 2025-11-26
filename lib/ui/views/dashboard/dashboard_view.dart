@@ -64,7 +64,8 @@ class DashboardView extends StackedView<DashboardViewModel> {
               margin: EdgeInsets.only(top: 10, bottom: 10, left: 50, right: 50),
               padding: EdgeInsets.all(11),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8), color: const Color.fromARGB(255, 172, 211, 243)),
+                  borderRadius: BorderRadius.circular(8),
+                  color: const Color.fromARGB(255, 172, 211, 243)),
               child: Column(
                 children: [
                   Row(
@@ -151,11 +152,16 @@ class DashboardView extends StackedView<DashboardViewModel> {
           ],
         ),
       ),
-      floatingActionButton: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8), color: Colors.blue),
-          padding: const EdgeInsets.all(5),
-          child: const Text("Add task")),
+      floatingActionButton: GestureDetector(
+        onTap: () {
+          viewModel.navigateToAddtaskview();
+        },
+        child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8), color: Colors.blue),
+            padding: const EdgeInsets.all(5),
+            child: const Text("Add task")),
+      ),
     );
   }
 
