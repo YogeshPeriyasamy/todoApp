@@ -4,7 +4,7 @@ import 'package:stacked/stacked.dart';
 import 'dashboard_viewmodel.dart';
 
 class DashboardView extends StackedView<DashboardViewModel> {
-  DashboardView({Key? key}) : super(key: key);
+  const DashboardView({Key? key}) : super(key: key);
 
   @override
   Widget builder(
@@ -163,6 +163,13 @@ class DashboardView extends StackedView<DashboardViewModel> {
             child: const Text("Add task")),
       ),
     );
+  }
+
+  @override
+  void onViewModelReady(DashboardViewModel viewModel) {
+    // TODO: implement onModelReady
+    print("VIEWMODEL READY");
+    viewModel.getList();
   }
 
   @override

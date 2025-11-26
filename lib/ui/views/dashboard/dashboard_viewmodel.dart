@@ -27,14 +27,17 @@ class DashboardViewModel extends BaseViewModel {
   List<String> todoList = ["study flutter", "study dart", "study stacked"];
 
   void getList() async {
+    print("get list called");
     _todos = await PrefsServiceService.getTodos();
+
+    print("todos list fetched $_todos");
     notifyListeners();
   }
 
-  Future<void> addList(List todos) async {
-    await PrefsServiceService.addTodos();
-    notifyListeners();
-  }
+  // Future<void> addList(List todos) async {
+  //   await PrefsServiceService.addTodos();
+  //   notifyListeners();
+  // }
 
   void toggleTheme() {
     _themeService.toggleTheme();
