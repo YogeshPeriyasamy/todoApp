@@ -28,4 +28,15 @@ class PrefsServiceService {
         .map((taskStr) => Todo.fromJson(jsonDecode(taskStr)))
         .toList();
   }
+
+  static Future<void> deleteTodos(int ind) async {
+    print("to delete in service $ind");
+    final todos = await getTodos();
+    print("todos before del $todos");
+    todos.removeAt(ind);
+    print("todos after del $todos");
+    final jsonList = todos.map((todo) => jsonEncode(todo.toJson())).toList();
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(listName, jsonList);
+  }
 }

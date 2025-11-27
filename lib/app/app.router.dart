@@ -7,12 +7,13 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:flutter/material.dart' as _i6;
 import 'package:flutter/material.dart';
+import 'package:realtodo/models/todo_model.dart' as _i7;
 import 'package:realtodo/ui/views/addtask/addtask_view.dart' as _i5;
 import 'package:realtodo/ui/views/dashboard/dashboard_view.dart' as _i4;
 import 'package:realtodo/ui/views/home/home_view.dart' as _i2;
 import 'package:realtodo/ui/views/startup/startup_view.dart' as _i3;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i7;
+import 'package:stacked_services/stacked_services.dart' as _i8;
 
 class Routes {
   static const homeView = '/home-view';
@@ -65,17 +66,21 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i4.DashboardView: (data) {
-      final args = data.getArgs<DashboardViewArguments>(
-        orElse: () => const DashboardViewArguments(),
-      );
       return _i6.MaterialPageRoute<dynamic>(
-        builder: (context) => _i4.DashboardView(key: args.key),
+        builder: (context) => const _i4.DashboardView(),
         settings: data,
       );
     },
     _i5.AddtaskView: (data) {
+      final args = data.getArgs<AddtaskViewArguments>(
+        orElse: () => const AddtaskViewArguments(),
+      );
       return _i6.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i5.AddtaskView(),
+        builder: (context) => _i5.AddtaskView(
+            key: args.key,
+            isEditing: args.isEditing,
+            todo: args.todo,
+            index: args.index),
         settings: data,
       );
     },
@@ -88,29 +93,43 @@ class StackedRouter extends _i1.RouterBase {
   Map<Type, _i1.StackedRouteFactory> get pagesMap => _pagesMap;
 }
 
-class DashboardViewArguments {
-  const DashboardViewArguments({this.key});
+class AddtaskViewArguments {
+  const AddtaskViewArguments({
+    this.key,
+    this.isEditing = false,
+    this.todo,
+    this.index,
+  });
 
   final _i6.Key? key;
 
+  final bool isEditing;
+
+  final _i7.Todo? todo;
+
+  final int? index;
+
   @override
   String toString() {
-    return '{"key": "$key"}';
+    return '{"key": "$key", "isEditing": "$isEditing", "todo": "$todo", "index": "$index"}';
   }
 
   @override
-  bool operator ==(covariant DashboardViewArguments other) {
+  bool operator ==(covariant AddtaskViewArguments other) {
     if (identical(this, other)) return true;
-    return other.key == key;
+    return other.key == key &&
+        other.isEditing == isEditing &&
+        other.todo == todo &&
+        other.index == index;
   }
 
   @override
   int get hashCode {
-    return key.hashCode;
+    return key.hashCode ^ isEditing.hashCode ^ todo.hashCode ^ index.hashCode;
   }
 }
 
-extension NavigatorStateExtension on _i7.NavigationService {
+extension NavigatorStateExtension on _i8.NavigationService {
   Future<dynamic> navigateToHomeView([
     int? routerId,
     bool preventDuplicates = true,
@@ -139,30 +158,34 @@ extension NavigatorStateExtension on _i7.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToDashboardView({
-    _i6.Key? key,
-    int? routerId,
-    bool preventDuplicates = true,
-    Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
-        transition,
-  }) async {
-    return navigateTo<dynamic>(Routes.dashboardView,
-        arguments: DashboardViewArguments(key: key),
-        id: routerId,
-        preventDuplicates: preventDuplicates,
-        parameters: parameters,
-        transition: transition);
-  }
-
-  Future<dynamic> navigateToAddtaskView([
+  Future<dynamic> navigateToDashboardView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
   ]) async {
+    return navigateTo<dynamic>(Routes.dashboardView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToAddtaskView({
+    _i6.Key? key,
+    bool isEditing = false,
+    _i7.Todo? todo,
+    int? index,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
     return navigateTo<dynamic>(Routes.addtaskView,
+        arguments: AddtaskViewArguments(
+            key: key, isEditing: isEditing, todo: todo, index: index),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -197,30 +220,34 @@ extension NavigatorStateExtension on _i7.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithDashboardView({
-    _i6.Key? key,
-    int? routerId,
-    bool preventDuplicates = true,
-    Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
-        transition,
-  }) async {
-    return replaceWith<dynamic>(Routes.dashboardView,
-        arguments: DashboardViewArguments(key: key),
-        id: routerId,
-        preventDuplicates: preventDuplicates,
-        parameters: parameters,
-        transition: transition);
-  }
-
-  Future<dynamic> replaceWithAddtaskView([
+  Future<dynamic> replaceWithDashboardView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
   ]) async {
+    return replaceWith<dynamic>(Routes.dashboardView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithAddtaskView({
+    _i6.Key? key,
+    bool isEditing = false,
+    _i7.Todo? todo,
+    int? index,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
     return replaceWith<dynamic>(Routes.addtaskView,
+        arguments: AddtaskViewArguments(
+            key: key, isEditing: isEditing, todo: todo, index: index),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

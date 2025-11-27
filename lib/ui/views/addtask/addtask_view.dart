@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import '../../../models/todo_model.dart';
 
 import 'addtask_viewmodel.dart';
 
 class AddtaskView extends StackedView<AddtaskViewModel> {
-  const AddtaskView({Key? key}) : super(key: key);
+  final bool isEditing;
+  final Todo? todo;
+  final int? index;
+
+  const AddtaskView({
+    Key? key,
+    this.isEditing = false,
+    this.todo,
+    this.index,
+  }) : super(key: key);
+
+  @override
+  void onViewModelReady(AddtaskViewModel viewmodel) {
+    if (isEditing == true) {
+      viewmodel.initialize(todo, index, isEditing);
+    }
+  }
 
   @override
   Widget builder(

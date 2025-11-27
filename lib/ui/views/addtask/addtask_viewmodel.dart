@@ -54,4 +54,13 @@ class AddtaskViewModel extends BaseViewModel {
     await PrefsServiceService.addTodos(newTodo);
     navService.navigateTo(Routes.dashboardView);
   }
+
+  void initialize(Todo? todo, int? index, bool isEditing) {
+    if (todo != null) {
+      titleController.text = todo.title;
+      descriptionController.text = todo.description;
+      selectedCategory = todo.category;
+      status = todo.isDone;
+    }
+  }
 }

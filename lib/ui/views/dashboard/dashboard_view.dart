@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 import 'dashboard_viewmodel.dart';
 
@@ -124,7 +125,7 @@ class DashboardView extends StackedView<DashboardViewModel> {
               child: Container(
                 padding: const EdgeInsets.only(top: 14),
                 child: ListView.builder(
-                    itemCount: viewModel.todoList.length,
+                    itemCount: viewModel.todos.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -138,11 +139,35 @@ class DashboardView extends StackedView<DashboardViewModel> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8)),
                               padding: const EdgeInsets.all(10),
-                              child: Text(
-                                viewModel.todoList[index],
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      viewModel.todos[index].title,
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      viewModel.editList(
+                                          viewModel.todos[index], index);
+                                    },
+                                    icon: const Icon(
+                                      Icons.edit,
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                                  IconButton(
+                                      onPressed: () {
+                                        viewModel.deleteList(index);
+                                      },
+                                      icon: const Icon(
+                                        Icons.delete,
+                                        color: Colors.red,
+                                      ))
+                                ],
                               )),
                         ),
                       );

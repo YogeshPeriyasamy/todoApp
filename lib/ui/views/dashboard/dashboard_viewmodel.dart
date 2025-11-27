@@ -3,6 +3,7 @@ import 'package:realtodo/app/app.locator.dart';
 import 'package:realtodo/app/app.router.dart';
 import 'package:realtodo/services/prefs_service_service.dart';
 import 'package:realtodo/services/themetoggle_service.dart';
+import 'package:realtodo/ui/views/addtask/addtask_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import '../../../models/todo_model.dart';
@@ -31,13 +32,23 @@ class DashboardViewModel extends BaseViewModel {
     _todos = await PrefsServiceService.getTodos();
 
     print("todos list fetched $_todos");
+    print("todos list fetched: ${_todos.map((t) => t.title).toList()}");
+
     notifyListeners();
   }
 
-  // Future<void> addList(List todos) async {
-  //   await PrefsServiceService.addTodos();
-  //   notifyListeners();
-  // }
+  void deleteList(int index) async {
+    print("to del index $index");
+    await PrefsServiceService.deleteTodos(index);
+    _todos = await PrefsServiceService.getTodos(); //manually updating the list
+    notifyListeners();
+  }
+
+  void editList(Todo toEditTodo, int index) async {
+    await navigator.navigateTo(Routes.addtaskView,
+        arguments: AddtaskViewArguments(
+            isEditing: true, todo: toEditTodo, index: index));
+  }
 
   void toggleTheme() {
     _themeService.toggleTheme();
@@ -54,6 +65,7 @@ class DashboardViewModel extends BaseViewModel {
   }
 
   void navigateToAddtaskview() {
-    navigator.navigateTo(Routes.addtaskView);
+    navigator.navigateTo(Routes.addtaskView,
+        arguments: AddtaskViewArguments(isEditing: false));
   }
 }
