@@ -34,6 +34,11 @@ class AddtaskView extends StackedView<AddtaskViewModel> {
         backgroundColor: viewModel.isDark ? Colors.black : Colors.white,
         elevation: 10,
         shadowColor: viewModel.isDark ? Colors.white : Colors.black,
+        leading: IconButton(
+            onPressed: () {
+              viewModel.navBacktoDashboard();
+            },
+            icon: const Icon(Icons.arrow_back_ios_new_outlined)),
         title: Text(
           "Add/Edit task",
           style: TextStyle(
@@ -203,10 +208,10 @@ class AddtaskView extends StackedView<AddtaskViewModel> {
                         borderRadius: BorderRadius.circular(5),
                       ),
                       onPressed: () {
-                        viewModel.addTask();
+                        viewModel.addOrEditTask();
                       },
                       child: Text(
-                        "Add task",
+                        isEditing ? "Update" : "Add",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),

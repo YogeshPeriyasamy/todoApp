@@ -17,6 +17,8 @@ class AddtaskViewModel extends BaseViewModel {
 
   bool get isDark => _themeService.isDark;
 
+  int toUpdateIndex = -1;
+
   String selectedCategory = "Work";
   List<String> categories = ["Work", "Personal", "Home", "Urgent", "Health"];
   void setCategory(category) {
@@ -29,15 +31,13 @@ class AddtaskViewModel extends BaseViewModel {
     status = stat;
   }
 
-  Future<void> addTask() async {
+  Future<void> addOrEditTask() async {
     final title = titleController.text;
     final description = descriptionController.text;
     print(title);
     print(description);
     print(selectedCategory);
     print(status);
-    titleController.clear();
-    descriptionController.clear();
 
     //generate random id
     final random = Random();
@@ -51,16 +51,29 @@ class AddtaskViewModel extends BaseViewModel {
         category: selectedCategory,
         createdAt: DateTime.now().toString());
 
-    await PrefsServiceService.addTodos(newTodo);
-    navService.navigateTo(Routes.dashboardView);
+    if (toUpdateIndex < 0) {
+      await PrefsServiceService.addTodos(newTodo);
+    } else {
+      await PrefsServiceService.updateTodos(newTodo, toUpdateIndex);
+      toUpdateIndex = -1;
+    }
+    titleController.clear();
+    descriptionController.clear();
+    navService.clearStackAndShow(Routes.dashboardView);
   }
 
   void initialize(Todo? todo, int? index, bool isEditing) {
-    if (todo != null) {
+    if (todo != null && index != null) {
+      toUpdateIndex = index;
       titleController.text = todo.title;
       descriptionController.text = todo.description;
       selectedCategory = todo.category;
       status = todo.isDone;
+      notifyListeners();
     }
+  }
+
+  void navBacktoDashboard() {
+    navService.clearStackAndShow(Routes.dashboardView);
   }
 }

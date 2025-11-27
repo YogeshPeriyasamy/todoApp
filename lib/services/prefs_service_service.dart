@@ -39,4 +39,15 @@ class PrefsServiceService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList(listName, jsonList);
   }
+
+  static Future<void> updateTodos(Todo updatedTodo, int index) async {
+    final todos = await getTodos(); // fetch existing first
+    print("old todos in service to update$todos");
+    print("new to update todo $updatedTodo");
+    todos[index] = updatedTodo;
+    final jsonList = todos.map((todo) => jsonEncode(todo.toJson())).toList();
+    print("json list to add $jsonList");
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(listName, jsonList);
+  }
 }
