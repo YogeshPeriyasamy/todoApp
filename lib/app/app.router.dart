@@ -5,15 +5,17 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i6;
+import 'package:flutter/material.dart' as _i8;
 import 'package:flutter/material.dart';
-import 'package:realtodo/models/todo_model.dart' as _i7;
+import 'package:realtodo/models/todo_model.dart' as _i9;
 import 'package:realtodo/ui/views/addtask/addtask_view.dart' as _i5;
 import 'package:realtodo/ui/views/dashboard/dashboard_view.dart' as _i4;
 import 'package:realtodo/ui/views/home/home_view.dart' as _i2;
+import 'package:realtodo/ui/views/login/login_view.dart' as _i6;
+import 'package:realtodo/ui/views/sign_up/sign_up_view.dart' as _i7;
 import 'package:realtodo/ui/views/startup/startup_view.dart' as _i3;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i8;
+import 'package:stacked_services/stacked_services.dart' as _i10;
 
 class Routes {
   static const homeView = '/home-view';
@@ -24,11 +26,17 @@ class Routes {
 
   static const addtaskView = '/addtask-view';
 
+  static const loginView = '/login-view';
+
+  static const signUpView = '/sign-up-view';
+
   static const all = <String>{
     homeView,
     startupView,
     dashboardView,
     addtaskView,
+    loginView,
+    signUpView,
   };
 }
 
@@ -50,23 +58,31 @@ class StackedRouter extends _i1.RouterBase {
       Routes.addtaskView,
       page: _i5.AddtaskView,
     ),
+    _i1.RouteDef(
+      Routes.loginView,
+      page: _i6.LoginView,
+    ),
+    _i1.RouteDef(
+      Routes.signUpView,
+      page: _i7.SignUpView,
+    ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.HomeView: (data) {
-      return _i6.MaterialPageRoute<dynamic>(
+      return _i8.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.HomeView(),
         settings: data,
       );
     },
     _i3.StartupView: (data) {
-      return _i6.MaterialPageRoute<dynamic>(
+      return _i8.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.StartupView(),
         settings: data,
       );
     },
     _i4.DashboardView: (data) {
-      return _i6.MaterialPageRoute<dynamic>(
+      return _i8.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.DashboardView(),
         settings: data,
       );
@@ -75,12 +91,24 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<AddtaskViewArguments>(
         orElse: () => const AddtaskViewArguments(),
       );
-      return _i6.MaterialPageRoute<dynamic>(
+      return _i8.MaterialPageRoute<dynamic>(
         builder: (context) => _i5.AddtaskView(
             key: args.key,
             isEditing: args.isEditing,
             todo: args.todo,
             index: args.index),
+        settings: data,
+      );
+    },
+    _i6.LoginView: (data) {
+      return _i8.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i6.LoginView(),
+        settings: data,
+      );
+    },
+    _i7.SignUpView: (data) {
+      return _i8.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i7.SignUpView(),
         settings: data,
       );
     },
@@ -101,11 +129,11 @@ class AddtaskViewArguments {
     this.index,
   });
 
-  final _i6.Key? key;
+  final _i8.Key? key;
 
   final bool isEditing;
 
-  final _i7.Todo? todo;
+  final _i9.Todo? todo;
 
   final int? index;
 
@@ -129,7 +157,7 @@ class AddtaskViewArguments {
   }
 }
 
-extension NavigatorStateExtension on _i8.NavigationService {
+extension NavigatorStateExtension on _i10.NavigationService {
   Future<dynamic> navigateToHomeView([
     int? routerId,
     bool preventDuplicates = true,
@@ -173,9 +201,9 @@ extension NavigatorStateExtension on _i8.NavigationService {
   }
 
   Future<dynamic> navigateToAddtaskView({
-    _i6.Key? key,
+    _i8.Key? key,
     bool isEditing = false,
-    _i7.Todo? todo,
+    _i9.Todo? todo,
     int? index,
     int? routerId,
     bool preventDuplicates = true,
@@ -186,6 +214,34 @@ extension NavigatorStateExtension on _i8.NavigationService {
     return navigateTo<dynamic>(Routes.addtaskView,
         arguments: AddtaskViewArguments(
             key: key, isEditing: isEditing, todo: todo, index: index),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToLoginView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.loginView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToSignUpView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.signUpView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -235,9 +291,9 @@ extension NavigatorStateExtension on _i8.NavigationService {
   }
 
   Future<dynamic> replaceWithAddtaskView({
-    _i6.Key? key,
+    _i8.Key? key,
     bool isEditing = false,
-    _i7.Todo? todo,
+    _i9.Todo? todo,
     int? index,
     int? routerId,
     bool preventDuplicates = true,
@@ -248,6 +304,34 @@ extension NavigatorStateExtension on _i8.NavigationService {
     return replaceWith<dynamic>(Routes.addtaskView,
         arguments: AddtaskViewArguments(
             key: key, isEditing: isEditing, todo: todo, index: index),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithLoginView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.loginView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithSignUpView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.signUpView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

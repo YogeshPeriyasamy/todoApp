@@ -8,6 +8,8 @@ import 'package:realtodo/ui/views/dashboard/dashboard_view.dart';
 import 'package:realtodo/services/prefs_service_service.dart';
 import 'package:realtodo/ui/views/addtask/addtask_view.dart';
 import 'package:realtodo/services/themetoggle_service.dart';
+import 'package:realtodo/ui/views/login/login_view.dart';
+import 'package:realtodo/ui/views/sign_up/sign_up_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -16,6 +18,8 @@ import 'package:realtodo/services/themetoggle_service.dart';
     MaterialRoute(page: StartupView),
     MaterialRoute(page: DashboardView),
     MaterialRoute(page: AddtaskView),
+    MaterialRoute(page: LoginView),
+    MaterialRoute(page: SignUpView),
 // @stacked-route
   ],
   dependencies: [
