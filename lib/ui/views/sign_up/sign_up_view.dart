@@ -102,7 +102,9 @@ class SignUpView extends StackedView<SignUpViewModel> {
                               onPressed: () {
                                 viewModel.togglePasswordVisible();
                               },
-                              icon: Icon(Icons.visibility)))),
+                              icon: Icon(viewModel.isPasswordVisible
+                                  ? Icons.visibility_off
+                                  : Icons.visibility)))),
                 ),
                 const SizedBox(
                   height: 20,
@@ -127,7 +129,23 @@ class SignUpView extends StackedView<SignUpViewModel> {
                               onPressed: () {
                                 viewModel.toggleConfirmpasswordVisible();
                               },
-                              icon: const Icon(Icons.visibility)))),
+                              icon: Icon(viewModel.isConfirmPasswordVisible
+                                  ? Icons.visibility_off
+                                  : Icons.visibility)))),
+                ),
+                if (viewModel.formMessage.isNotEmpty)
+                  SizedBox(
+                    height: 10,
+                  ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    viewModel.formMessage,
+                    style: TextStyle(
+                        color: viewModel.formMessage == "Sucessfully SignedUp!"
+                            ? Colors.green
+                            : Colors.red),
+                  ),
                 ),
                 const SizedBox(
                   height: 30,
@@ -145,10 +163,18 @@ class SignUpView extends StackedView<SignUpViewModel> {
                               blurRadius: 6)
                         ]),
                     height: 40,
-                    child: MaterialButton(
-                      onPressed: () {},
-                      child: const Text("SignUp"),
-                    ),
+                    child: viewModel.isBusy
+                        ? const SizedBox(
+                            height: 1,
+                            child: LinearProgressIndicator(
+                              color: Colors.blue,
+                            ))
+                        : MaterialButton(
+                            onPressed: () {
+                              viewModel.signUp();
+                            },
+                            child: const Text("SignUp"),
+                          ),
                   ),
                 ),
               ],

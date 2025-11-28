@@ -62,9 +62,10 @@ class LoginView extends StackedView<LoginViewModel> {
                       borderRadius: BorderRadiusGeometry.circular(3)),
                   child: TextField(
                       controller: viewModel.passwordController,
+                      obscureText: !viewModel.ispasswordVisible,
                       decoration: InputDecoration(
-                          border:
-                              const OutlineInputBorder(borderSide: BorderSide.none),
+                          border: const OutlineInputBorder(
+                              borderSide: BorderSide.none),
                           contentPadding: const EdgeInsets.all(8),
                           filled: true,
                           fillColor: Colors.white,
@@ -73,7 +74,20 @@ class LoginView extends StackedView<LoginViewModel> {
                               onPressed: () {
                                 viewModel.togglePasswordVisiblity();
                               },
-                              icon: const Icon(Icons.visibility)))),
+                              icon: Icon(viewModel.ispasswordVisible
+                                  ? Icons.visibility_off
+                                  : Icons.visibility)))),
+                ),
+                if (viewModel.formMessage.isNotEmpty)
+                  SizedBox(
+                    height: 10,
+                  ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    viewModel.formMessage,
+                    style: TextStyle(color: Colors.red),
+                  ),
                 ),
                 const SizedBox(
                   height: 30,
@@ -91,10 +105,18 @@ class LoginView extends StackedView<LoginViewModel> {
                               blurRadius: 6)
                         ]),
                     height: 40,
-                    child: MaterialButton(
-                      onPressed: () {},
-                      child: const Text("Login"),
-                    ),
+                    child: viewModel.isBusy
+                        ? const SizedBox(
+                            height: 1,
+                            child: LinearProgressIndicator(
+                              color: Colors.blue,
+                            ))
+                        : MaterialButton(
+                            onPressed: () {
+                              viewModel.logIn();
+                            },
+                            child: const Text("Login"),
+                          ),
                   ),
                 ),
               ],
