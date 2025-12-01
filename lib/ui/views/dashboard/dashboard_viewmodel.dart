@@ -6,6 +6,7 @@ import 'package:realtodo/services/themetoggle_service.dart';
 import 'package:realtodo/ui/views/addtask/addtask_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../models/todo_model.dart';
 
 class DashboardViewModel extends BaseViewModel {
@@ -75,8 +76,9 @@ class DashboardViewModel extends BaseViewModel {
   void setCategory(String cat) async {
     selectedCategory = cat;
     _todos = await PrefsServiceService.getTodos();
-    List<Todo> filtered =
-        _todos.where((ele) => ele.category == selectedCategory).toList();
+    List<Todo> filtered = _todos
+        .where((ele) => ele.categories.contains(selectedCategory))
+        .toList();
     _todos = filtered;
     notifyListeners();
   }

@@ -212,7 +212,7 @@ class DashboardView extends StackedView<DashboardViewModel> {
                                           Row(
                                             children: [
                                               const Text(
-                                                "Category:",
+                                                "Categories:",
                                                 style: TextStyle(
                                                     fontWeight:
                                                         FontWeight.bold),
@@ -220,11 +220,37 @@ class DashboardView extends StackedView<DashboardViewModel> {
                                               const SizedBox(
                                                 width: 5,
                                               ),
-                                              Text(
-                                                viewModel.todos[index].category,
-                                                style: const TextStyle(
-                                                    color: Colors.grey),
-                                              ),
+                                              Expanded(
+                                                  child: Wrap(
+                                                spacing: 4,
+                                                runSpacing: 4,
+                                                children: viewModel
+                                                    .todos[index].categories
+                                                    .map<Widget>((cat) {
+                                                  return Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadiusDirectional
+                                                              .circular(8),
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255,
+                                                              196,
+                                                              195,
+                                                              195),
+                                                    ),
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 4,
+                                                        vertical: 0),
+                                                    child: Text(
+                                                      cat,
+                                                      style: const TextStyle(
+                                                          fontSize: 10,color: Colors.white,fontWeight: FontWeight.bold),
+                                                    ),
+                                                  );
+                                                }).toList(),
+                                              ))
                                             ],
                                           ),
                                           Row(

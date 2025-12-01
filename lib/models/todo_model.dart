@@ -3,7 +3,7 @@ class Todo {
   String title;
   String description;
   String isDone;
-  String category;
+  List<String> categories;
   String createdAt;
 
   Todo(
@@ -11,7 +11,7 @@ class Todo {
       required this.title,
       required this.description,
       required this.isDone,
-      required this.category,
+      required this.categories,
       required this.createdAt});
 
   Map<String, dynamic> toJson() {
@@ -20,7 +20,7 @@ class Todo {
       'title': title,
       'description': description,
       'isDone': isDone,
-      'category': category,
+      'categories': categories,
       'createdAt': createdAt,
     };
   }
@@ -31,7 +31,7 @@ class Todo {
       title: json['title'],
       description: json['description'],
       isDone: json['isDone'],
-      category: json['category'],
+      categories: List<String>.from(json["categories"] ?? []),
       createdAt: json['createdAt'],
     );
   }

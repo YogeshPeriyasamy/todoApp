@@ -19,10 +19,16 @@ class AddtaskViewModel extends BaseViewModel {
 
   int toUpdateIndex = -1;
 
-  String selectedCategory = "Work";
-  List<String> categories = ["Work", "Personal", "Home", "Urgent", "Health"];
+  List<String> selectedCategories = [];
+  List<String> categories = ["Health", "Personal", "Home", "Urgent", "Work"];
+
   void setCategory(category) {
-    selectedCategory = category;
+    if (selectedCategories.contains(category)) {
+      selectedCategories.remove(category);
+    } else {
+      selectedCategories.add(category);
+    }
+    notifyListeners();
   }
 
   String status = "Pending";
@@ -36,7 +42,6 @@ class AddtaskViewModel extends BaseViewModel {
     final description = descriptionController.text;
     print(title);
     print(description);
-    print(selectedCategory);
     print(status);
 
     //generate random id
@@ -48,7 +53,7 @@ class AddtaskViewModel extends BaseViewModel {
         title: title,
         description: description,
         isDone: status,
-        category: selectedCategory,
+        categories: selectedCategories,
         createdAt: DateTime.now().toString());
 
     if (toUpdateIndex < 0) {
@@ -67,7 +72,7 @@ class AddtaskViewModel extends BaseViewModel {
       toUpdateIndex = index;
       titleController.text = todo.title;
       descriptionController.text = todo.description;
-      selectedCategory = todo.category;
+      selectedCategories = List.from(todo.categories);
       status = todo.isDone.trim();
       notifyListeners();
     }

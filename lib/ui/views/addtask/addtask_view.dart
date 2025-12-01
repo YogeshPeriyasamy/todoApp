@@ -17,9 +17,9 @@ class AddtaskView extends StackedView<AddtaskViewModel> {
   }) : super(key: key);
 
   @override
-  void onViewModelReady(AddtaskViewModel viewmodel) async{
+  void onViewModelReady(AddtaskViewModel viewmodel) async {
     if (isEditing == true) {
-     await viewmodel.initialize(todo, index, isEditing);
+      await viewmodel.initialize(todo, index, isEditing);
     }
   }
 
@@ -124,49 +124,51 @@ class AddtaskView extends StackedView<AddtaskViewModel> {
                   SizedBox(
                     height: 20,
                   ),
-                  Row(
-                    children: [
-                      Container(
-                          padding: EdgeInsets.only(right: 18),
-                          child: Text(
-                            "Category",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w700),
-                          )),
-                      Expanded(
-                        child: Material(
-                          elevation: 8,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadiusGeometry.circular(3)),
-                          shadowColor: Colors.grey,
-                          child: DropdownButtonFormField<String>(
-                              initialValue: viewModel.selectedCategory,
-                              items: viewModel.categories.map((category) {
-                                return DropdownMenuItem<String>(
-                                  child: Text(category),
-                                  value: category,
-                                );
-                              }).toList(),
-                              decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide.none)),
-                              onChanged: (value) {
-                                viewModel.setCategory(value);
-                              }),
+                  Container(
+                      padding: EdgeInsets.only(right: 18),
+                      child: const Text(
+                        "Category",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w700),
+                      )),
+                      const SizedBox(height: 5,),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 2,
+                    children: viewModel.categories.map((category) {
+                      final isSelected =
+                          viewModel.selectedCategories.contains(category);
+                      return FilterChip(
+                        label: Text(
+                          category,
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: isSelected ? Colors.white : Colors.black),
                         ),
-                      )
-                    ],
+                        selected: isSelected,
+                        onSelected: (_) {
+                          viewModel.setCategory(category);
+                        },
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        visualDensity: VisualDensity.compact,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadiusGeometry.circular(20)),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 3, vertical: 0),
+                        selectedColor: Colors.blue,
+                        showCheckmark: false,
+                      );
+                    }).toList(),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
                     children: [
                       Container(
-                          padding: EdgeInsets.only(right: 18),
-                          child: Text(
+                          padding: const EdgeInsets.only(right: 18),
+                          child: const Text(
                             "Status",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w700),
@@ -181,11 +183,11 @@ class AddtaskView extends StackedView<AddtaskViewModel> {
                               initialValue: viewModel.status,
                               items: viewModel.statusList.map((stat) {
                                 return DropdownMenuItem<String>(
-                                  child: Text(stat),
                                   value: stat,
+                                  child: Text(stat),
                                 );
                               }).toList(),
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                   filled: true,
                                   fillColor: Colors.white,
                                   border: OutlineInputBorder(
@@ -197,7 +199,7 @@ class AddtaskView extends StackedView<AddtaskViewModel> {
                       )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                   Center(
@@ -212,7 +214,7 @@ class AddtaskView extends StackedView<AddtaskViewModel> {
                       },
                       child: Text(
                         isEditing ? "Update" : "Add",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                   )
