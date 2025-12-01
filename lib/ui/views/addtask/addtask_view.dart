@@ -17,9 +17,9 @@ class AddtaskView extends StackedView<AddtaskViewModel> {
   }) : super(key: key);
 
   @override
-  void onViewModelReady(AddtaskViewModel viewmodel) {
+  void onViewModelReady(AddtaskViewModel viewmodel) async{
     if (isEditing == true) {
-      viewmodel.initialize(todo, index, isEditing);
+     await viewmodel.initialize(todo, index, isEditing);
     }
   }
 
@@ -191,7 +191,7 @@ class AddtaskView extends StackedView<AddtaskViewModel> {
                                   border: OutlineInputBorder(
                                       borderSide: BorderSide.none)),
                               onChanged: (value) {
-                                viewModel.setCategory(value);
+                                viewModel.setStatus(value);
                               }),
                         ),
                       )

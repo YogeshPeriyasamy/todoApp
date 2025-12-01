@@ -62,13 +62,13 @@ class AddtaskViewModel extends BaseViewModel {
     navService.clearStackAndShow(Routes.dashboardView);
   }
 
-  void initialize(Todo? todo, int? index, bool isEditing) {
+  Future<void> initialize(Todo? todo, int? index, bool isEditing) async {
     if (todo != null && index != null) {
       toUpdateIndex = index;
       titleController.text = todo.title;
       descriptionController.text = todo.description;
       selectedCategory = todo.category;
-      status = todo.isDone;
+      status = todo.isDone.trim();
       notifyListeners();
     }
   }

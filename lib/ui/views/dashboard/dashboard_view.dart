@@ -52,18 +52,19 @@ class DashboardView extends StackedView<DashboardViewModel> {
                         onPressed: () {
                           viewModel.setCategory(viewModel.categoryList[index]);
                         },
+                        color: Colors.blue,
                         child: Text(
                           viewModel.categoryList[index],
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        color: Colors.blue,
                       ),
                     );
                   }),
             ),
             Container(
-              margin: EdgeInsets.only(top: 10, bottom: 10, left: 50, right: 50),
-              padding: EdgeInsets.all(11),
+              margin: const EdgeInsets.only(
+                  top: 10, bottom: 10, left: 50, right: 50),
+              padding: const EdgeInsets.all(11),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color: const Color.fromARGB(255, 172, 211, 243)),
@@ -71,37 +72,37 @@ class DashboardView extends StackedView<DashboardViewModel> {
                 children: [
                   Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                           child: Text("Total tasks",
                               style: TextStyle(fontWeight: FontWeight.bold))),
-                      Text(viewModel.todoList.length.toString())
+                      Text(viewModel.totalTasks)
                     ],
                   ),
                   Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                           child: Text("Completed tasks",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ))),
-                      Text("1")
+                      Text(viewModel.completedTasks)
                     ],
                   ),
                   Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                           child: Text(
                         "Pending tasks",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       )),
-                      Text("2")
+                      Text(viewModel.pendingTasks)
                     ],
                   )
                 ],
               ),
             ),
             Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Material(
                 elevation: 8,
                 shape: RoundedRectangleBorder(
@@ -135,40 +136,120 @@ class DashboardView extends StackedView<DashboardViewModel> {
                           shadowColor: viewModel.isDarkThemed
                               ? Colors.white
                               : Colors.black,
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8)),
-                              padding: const EdgeInsets.all(10),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      viewModel.todos[index].title,
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
+                          child: InkWell(
+                            onTap: () {
+                              viewModel.toExpandList(index);
+                            },
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8)),
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            viewModel.todos[index].title,
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            viewModel.editList(
+                                                viewModel.todos[index], index);
+                                          },
+                                          icon: const Icon(
+                                            Icons.edit,
+                                            color: Colors.green,
+                                          ),
+                                        ),
+                                        IconButton(
+                                            onPressed: () {
+                                              viewModel.deleteList(index);
+                                            },
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ))
+                                      ],
                                     ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      viewModel.editList(
-                                          viewModel.todos[index], index);
-                                    },
-                                    icon: const Icon(
-                                      Icons.edit,
-                                      color: Colors.green,
-                                    ),
-                                  ),
-                                  IconButton(
-                                      onPressed: () {
-                                        viewModel.deleteList(index);
-                                      },
-                                      icon: const Icon(
-                                        Icons.delete,
-                                        color: Colors.red,
-                                      ))
-                                ],
-                              )),
+                                    if (viewModel.expandedList.contains(index))
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                "Description:",
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  viewModel
+                                                      .todos[index].description,
+                                                  style: const TextStyle(
+                                                      color: Colors.grey),
+                                                  softWrap: true,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Text(
+                                                "Category:",
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                viewModel.todos[index].category,
+                                                style: const TextStyle(
+                                                    color: Colors.grey),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Text(
+                                                "Status:",
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                viewModel.todos[index].isDone,
+                                                style: const TextStyle(
+                                                    color: Colors.grey),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                  ],
+                                )),
+                          ),
                         ),
                       );
                     }),
@@ -191,10 +272,11 @@ class DashboardView extends StackedView<DashboardViewModel> {
   }
 
   @override
-  void onViewModelReady(DashboardViewModel viewModel) {
+  void onViewModelReady(DashboardViewModel viewModel) async {
     // TODO: implement onModelReady
     print("VIEWMODEL READY");
     viewModel.getList();
+    viewModel.getTaskStatus();
   }
 
   @override

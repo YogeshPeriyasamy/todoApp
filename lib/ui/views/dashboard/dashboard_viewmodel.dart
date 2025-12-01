@@ -25,9 +25,22 @@ class DashboardViewModel extends BaseViewModel {
   String searchedText = "";
   TextEditingController serarchController = TextEditingController();
 
-  List<String> todoList = ["study flutter", "study dart", "study stacked"];
+  String totalTasks = "";
+  String completedTasks = "";
+  String pendingTasks = "";
 
-  void getList() async {
+  List<int> expandedList = [];
+
+  void toExpandList(int index) {
+    if (expandedList.contains(index)) {
+      expandedList.remove(index);
+    } else {
+      expandedList.add(index);
+    }
+    notifyListeners();
+  }
+
+  Future<void> getList() async {
     print("get list called");
     _todos = await PrefsServiceService.getTodos();
 
@@ -40,14 +53,18 @@ class DashboardViewModel extends BaseViewModel {
   void deleteList(int index) async {
     print("to del index $index");
     await PrefsServiceService.deleteTodos(index);
-    _todos = await PrefsServiceService.getTodos(); //manually updating the list
+    _todos = await PrefsServiceService.getTodos();
+    getTaskStatus(); //manually updating the list
     notifyListeners();
   }
 
   void editList(Todo toEditTodo, int index) async {
+    print("toeditto do to send in the add/editview ${toEditTodo.isDone}");
     await navigator.navigateTo(Routes.addtaskView,
         arguments: AddtaskViewArguments(
             isEditing: true, todo: toEditTodo, index: index));
+
+    getTaskStatus();
   }
 
   void toggleTheme() {
@@ -55,17 +72,48 @@ class DashboardViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void setCategory(String cat) {
+  void setCategory(String cat) async {
     selectedCategory = cat;
+    _todos = await PrefsServiceService.getTodos();
+    List<Todo> filtered =
+        _todos.where((ele) => ele.category == selectedCategory).toList();
+    _todos = filtered;
     notifyListeners();
   }
 
-  void setSearch(String text) {
+  void setSearch(String text) async {
+    print("searched text $text");
+    _todos = await PrefsServiceService.getTodos();
     searchedText = text;
+    List<Todo> filtered =
+        _todos.where((ele) => ele.title.contains(searchedText)).toList();
+    _todos = filtered;
+    notifyListeners();
   }
 
-  void navigateToAddtaskview() {
-    navigator.navigateTo(Routes.addtaskView,
+  void navigateToAddtaskview() async {
+    await navigator.navigateTo(Routes.addtaskView,
         arguments: AddtaskViewArguments(isEditing: false));
+
+    getTaskStatus();
+  }
+
+  void getTaskStatus() async {
+    print("get taskstatus haas been called");
+    _todos = await PrefsServiceService.getTodos();
+    int totalTasksLength = _todos.length;
+    totalTasks = totalTasksLength.toString();
+
+    int completedTasksLength = _todos
+        .where((ele) {
+          print("status ${ele.isDone}");
+          return ele.isDone == "Completed";
+        })
+        .toList()
+        .length;
+    completedTasks = completedTasksLength.toString();
+
+    pendingTasks = (totalTasksLength - completedTasksLength).toString();
+    notifyListeners();
   }
 }
