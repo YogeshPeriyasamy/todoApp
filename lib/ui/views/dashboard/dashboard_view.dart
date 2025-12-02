@@ -32,7 +32,12 @@ class DashboardView extends StackedView<DashboardViewModel> {
                 viewModel.toggleTheme();
               },
               icon: Icon(
-                  viewModel.isDarkThemed ? Icons.dark_mode : Icons.light_mode))
+                  viewModel.isDarkThemed ? Icons.dark_mode : Icons.light_mode)),
+          IconButton(
+              onPressed: () {
+                viewModel.logOut();
+              },
+              icon: const Icon(Icons.logout_outlined))
         ],
       ),
       body: Container(
@@ -169,7 +174,8 @@ class DashboardView extends StackedView<DashboardViewModel> {
                                         ),
                                         IconButton(
                                             onPressed: () {
-                                              viewModel.deleteList(index);
+                                              viewModel.deleteList(
+                                                  viewModel.todos[index].id);
                                             },
                                             icon: const Icon(
                                               Icons.delete,
@@ -246,7 +252,10 @@ class DashboardView extends StackedView<DashboardViewModel> {
                                                     child: Text(
                                                       cat,
                                                       style: const TextStyle(
-                                                          fontSize: 10,color: Colors.white,fontWeight: FontWeight.bold),
+                                                          fontSize: 10,
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold),
                                                     ),
                                                   );
                                                 }).toList(),

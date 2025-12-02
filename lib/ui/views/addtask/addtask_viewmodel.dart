@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:realtodo/app/app.locator.dart';
 import 'package:realtodo/app/app.router.dart';
+import 'package:realtodo/services/supabase_service.dart';
 import 'package:realtodo/services/themetoggle_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -11,13 +12,14 @@ import 'dart:math'; // to generate random id
 class AddtaskViewModel extends BaseViewModel {
   final ThemetoggleService _themeService = locator<ThemetoggleService>();
   final navService = locator<NavigationService>();
+  final supaBaseService = locator<SupabaseService>();
 
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
 
   bool get isDark => _themeService.isDark;
 
-  int toUpdateIndex = -1;
+  String? toUpdateId;
 
   List<String> selectedCategories = [];
   List<String> categories = ["Health", "Personal", "Home", "Urgent", "Work"];
@@ -54,13 +56,13 @@ class AddtaskViewModel extends BaseViewModel {
         description: description,
         isDone: status,
         categories: selectedCategories,
-        createdAt: DateTime.now().toString());
+        createdAt: DateTime.now());
 
-    if (toUpdateIndex < 0) {
-      await PrefsServiceService.addTodos(newTodo);
+    if (toUpdateId == null) {
+      await supaBaseService.addTodo(newTodo);
     } else {
-      await PrefsServiceService.updateTodos(newTodo, toUpdateIndex);
-      toUpdateIndex = -1;
+      await supaBaseService.updateTodo(newTodo, toUpdateId);
+      toUpdateId = null;
     }
     titleController.clear();
     descriptionController.clear();
@@ -69,7 +71,7 @@ class AddtaskViewModel extends BaseViewModel {
 
   Future<void> initialize(Todo? todo, int? index, bool isEditing) async {
     if (todo != null && index != null) {
-      toUpdateIndex = index;
+      toUpdateId = todo.id;
       titleController.text = todo.title;
       descriptionController.text = todo.description;
       selectedCategories = List.from(todo.categories);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:realtodo/app/app.locator.dart';
 import 'package:realtodo/app/app.router.dart';
 import 'package:realtodo/services/prefs_service_service.dart';
+import 'package:realtodo/services/supabase_service.dart';
 import 'package:realtodo/services/themetoggle_service.dart';
 import 'package:realtodo/ui/views/addtask/addtask_view.dart';
 import 'package:stacked/stacked.dart';
@@ -13,6 +14,7 @@ class DashboardViewModel extends BaseViewModel {
   final PrefsServiceService _prefService = locator<PrefsServiceService>();
   final NavigationService navigator = locator<NavigationService>();
   final _themeService = locator<ThemetoggleService>();
+  final _supaBaseService = locator<SupabaseService>();
 
   List<Todo> _todos = [];
   List get todos => _todos;
@@ -43,7 +45,7 @@ class DashboardViewModel extends BaseViewModel {
 
   Future<void> getList() async {
     print("get list called");
-    _todos = await PrefsServiceService.getTodos();
+    _todos = await _supaBaseService.fetchTodos();
 
     print("todos list fetched $_todos");
     print("todos list fetched: ${_todos.map((t) => t.title).toList()}");
@@ -51,10 +53,10 @@ class DashboardViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void deleteList(int index) async {
-    print("to del index $index");
-    await PrefsServiceService.deleteTodos(index);
-    _todos = await PrefsServiceService.getTodos();
+  void deleteList(String id) async {
+    print("to del id $id");
+    await _supaBaseService.deleteTodo(id);
+    getList();
     getTaskStatus(); //manually updating the list
     notifyListeners();
   }
@@ -75,7 +77,7 @@ class DashboardViewModel extends BaseViewModel {
 
   void setCategory(String cat) async {
     selectedCategory = cat;
-    _todos = await PrefsServiceService.getTodos();
+    _todos = await _supaBaseService.fetchTodos();
     List<Todo> filtered = _todos
         .where((ele) => ele.categories.contains(selectedCategory))
         .toList();
@@ -85,7 +87,7 @@ class DashboardViewModel extends BaseViewModel {
 
   void setSearch(String text) async {
     print("searched text $text");
-    _todos = await PrefsServiceService.getTodos();
+    _todos = await _supaBaseService.fetchTodos();
     searchedText = text;
     List<Todo> filtered =
         _todos.where((ele) => ele.title.contains(searchedText)).toList();
@@ -95,14 +97,14 @@ class DashboardViewModel extends BaseViewModel {
 
   void navigateToAddtaskview() async {
     await navigator.navigateTo(Routes.addtaskView,
-        arguments: AddtaskViewArguments(isEditing: false));
+        arguments: const AddtaskViewArguments(isEditing: false));
 
     getTaskStatus();
   }
 
   void getTaskStatus() async {
     print("get taskstatus haas been called");
-    _todos = await PrefsServiceService.getTodos();
+    _todos = await _supaBaseService.fetchTodos();
     int totalTasksLength = _todos.length;
     totalTasks = totalTasksLength.toString();
 
@@ -117,5 +119,10 @@ class DashboardViewModel extends BaseViewModel {
 
     pendingTasks = (totalTasksLength - completedTasksLength).toString();
     notifyListeners();
+  }
+
+  void logOut() async {
+    await Supabase.instance.client.auth.signOut();
+    navigator.clearStackAndShow(Routes.loginView);
   }
 }

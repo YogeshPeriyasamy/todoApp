@@ -4,7 +4,7 @@ class Todo {
   String description;
   String isDone;
   List<String> categories;
-  String createdAt;
+  DateTime createdAt;
 
   Todo(
       {required this.id,
@@ -21,7 +21,6 @@ class Todo {
       'description': description,
       'isDone': isDone,
       'categories': categories,
-      'createdAt': createdAt,
     };
   }
 
@@ -32,7 +31,7 @@ class Todo {
       description: json['description'],
       isDone: json['isDone'],
       categories: List<String>.from(json["categories"] ?? []),
-      createdAt: json['createdAt'],
+      createdAt: DateTime.parse(json['created_at']),
     );
   }
 }

@@ -131,7 +131,9 @@ class AddtaskView extends StackedView<AddtaskViewModel> {
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w700),
                       )),
-                      const SizedBox(height: 5,),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   Wrap(
                     spacing: 8,
                     runSpacing: 2,
