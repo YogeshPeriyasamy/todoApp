@@ -5,7 +5,6 @@ import 'package:realtodo/services/supabase_service.dart';
 import 'package:realtodo/services/themetoggle_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
-import '../../../services/prefs_service_service.dart';
 import '../../../models/todo_model.dart';
 import 'dart:math'; // to generate random id
 

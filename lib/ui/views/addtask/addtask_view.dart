@@ -60,17 +60,17 @@ class AddtaskView extends StackedView<AddtaskViewModel> {
                       ? Colors.white
                       : const Color.fromARGB(244, 255, 255, 255),
                   boxShadow: List.filled(
-                      1, BoxShadow(blurRadius: 3, color: Colors.grey))),
+                      1, const BoxShadow(blurRadius: 3, color: Colors.grey))),
               padding:
-                  EdgeInsets.only(top: 30, bottom: 30, left: 20, right: 20),
+                  const EdgeInsets.only(top: 30, bottom: 30, left: 20, right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
                       Container(
-                          padding: EdgeInsets.only(right: 18),
-                          child: Text(
+                          padding: const EdgeInsets.only(right: 18),
+                          child: const Text(
                             "Title",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w700),
@@ -94,14 +94,14 @@ class AddtaskView extends StackedView<AddtaskViewModel> {
                       )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Text(
+                  const Text(
                     "Description",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Material(
@@ -121,11 +121,11 @@ class AddtaskView extends StackedView<AddtaskViewModel> {
                             fillColor: Colors.white,
                             labelText: "Enter description")),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Container(
-                      padding: EdgeInsets.only(right: 18),
+                      padding: const EdgeInsets.only(right: 18),
                       child: const Text(
                         "Category",
                         style: TextStyle(

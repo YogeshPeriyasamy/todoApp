@@ -79,14 +79,14 @@ class LoginView extends StackedView<LoginViewModel> {
                                   : Icons.visibility)))),
                 ),
                 if (viewModel.formMessage.isNotEmpty)
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                 Align(
                   alignment: Alignment.center,
                   child: Text(
                     viewModel.formMessage,
-                    style: TextStyle(color: Colors.red),
+                    style: const TextStyle(color: Colors.red),
                   ),
                 ),
                 const SizedBox(

@@ -42,7 +42,7 @@ class SignUpViewModel extends BaseViewModel {
       String password = passwordController.text;
       String confirmPassword = confirmPasswordController.text;
 
-      bool isFormValid = await validateform(email, password, confirmPassword);
+      bool isFormValid = validateform(email, password, confirmPassword);
       print(isFormValid);
       if (isFormValid == true) {
         print("form is valid");

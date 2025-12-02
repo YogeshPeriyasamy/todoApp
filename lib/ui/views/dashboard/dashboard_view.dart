@@ -41,11 +41,11 @@ class DashboardView extends StackedView<DashboardViewModel> {
         ],
       ),
       body: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         color: viewModel.isDarkThemed ? Colors.black : Colors.white,
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: 50,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
@@ -115,7 +115,7 @@ class DashboardView extends StackedView<DashboardViewModel> {
                 shadowColor:
                     viewModel.isDarkThemed ? Colors.white : Colors.black,
                 child: TextField(
-                  controller: viewModel.serarchController,
+                  controller: viewModel.searchController,
                   decoration: const InputDecoration(
                     contentPadding: EdgeInsets.all(8),
                     filled: true,
@@ -127,169 +127,183 @@ class DashboardView extends StackedView<DashboardViewModel> {
                 ),
               ),
             ),
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.only(top: 14),
-                child: ListView.builder(
-                    itemCount: viewModel.todos.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Material(
-                          elevation: 10,
-                          borderRadius: BorderRadius.circular(8),
-                          shadowColor: viewModel.isDarkThemed
-                              ? Colors.white
-                              : Colors.black,
-                          child: InkWell(
-                            onTap: () {
-                              viewModel.toExpandList(index);
-                            },
-                            child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8)),
-                                padding: const EdgeInsets.all(10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            viewModel.todos[index].title,
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        IconButton(
-                                          onPressed: () {
-                                            viewModel.editList(
-                                                viewModel.todos[index], index);
-                                          },
-                                          icon: const Icon(
-                                            Icons.edit,
-                                            color: Colors.green,
-                                          ),
-                                        ),
-                                        IconButton(
-                                            onPressed: () {
-                                              viewModel.deleteList(
-                                                  viewModel.todos[index].id);
-                                            },
-                                            icon: const Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
-                                            ))
-                                      ],
-                                    ),
-                                    if (viewModel.expandedList.contains(index))
-                                      Column(
+            viewModel.isBusy
+                ? const CircularProgressIndicator(
+                    color: Colors.blue,
+                  )
+                : Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.only(top: 14),
+                      child: ListView.builder(
+                          itemCount: viewModel.todos.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Material(
+                                elevation: 10,
+                                borderRadius: BorderRadius.circular(8),
+                                shadowColor: viewModel.isDarkThemed
+                                    ? Colors.white
+                                    : Colors.black,
+                                child: InkWell(
+                                  onTap: () {
+                                    viewModel.toExpandList(index);
+                                  },
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                      padding: const EdgeInsets.all(10),
+                                      child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
                                           Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
                                             children: [
-                                              const Text(
-                                                "Description:",
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
                                               Expanded(
                                                 child: Text(
-                                                  viewModel
-                                                      .todos[index].description,
+                                                  viewModel.todos[index].title,
                                                   style: const TextStyle(
-                                                      color: Colors.grey),
-                                                  softWrap: true,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
                                               ),
+                                              IconButton(
+                                                onPressed: () {
+                                                  viewModel.editList(
+                                                      viewModel.todos[index],
+                                                      index);
+                                                },
+                                                icon: const Icon(
+                                                  Icons.edit,
+                                                  color: Colors.green,
+                                                ),
+                                              ),
+                                              IconButton(
+                                                  onPressed: () {
+                                                    viewModel.deleteList(
+                                                        viewModel
+                                                            .todos[index].id);
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.delete,
+                                                    color: Colors.red,
+                                                  ))
                                             ],
                                           ),
-                                          Row(
-                                            children: [
-                                              const Text(
-                                                "Categories:",
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              Expanded(
-                                                  child: Wrap(
-                                                spacing: 4,
-                                                runSpacing: 4,
-                                                children: viewModel
-                                                    .todos[index].categories
-                                                    .map<Widget>((cat) {
-                                                  return Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadiusDirectional
-                                                              .circular(8),
-                                                      color:
-                                                          const Color.fromARGB(
-                                                              255,
-                                                              196,
-                                                              195,
-                                                              195),
-                                                    ),
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 4,
-                                                        vertical: 0),
-                                                    child: Text(
-                                                      cat,
-                                                      style: const TextStyle(
-                                                          fontSize: 10,
-                                                          color: Colors.white,
+                                          if (viewModel.expandedList
+                                              .contains(index))
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                const SizedBox(
+                                                  height: 8,
+                                                ),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Text(
+                                                      "Description:",
+                                                      style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold),
                                                     ),
-                                                  );
-                                                }).toList(),
-                                              ))
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              const Text(
-                                                "Status:",
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                viewModel.todos[index].isDone,
-                                                style: const TextStyle(
-                                                    color: Colors.grey),
-                                              ),
-                                            ],
-                                          ),
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Expanded(
+                                                      child: Text(
+                                                        viewModel.todos[index]
+                                                            .description,
+                                                        style: const TextStyle(
+                                                            color: Colors.grey),
+                                                        softWrap: true,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const Text(
+                                                      "Categories:",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Expanded(
+                                                        child: Wrap(
+                                                      spacing: 4,
+                                                      runSpacing: 4,
+                                                      children: viewModel
+                                                          .todos[index]
+                                                          .categories
+                                                          .map<Widget>((cat) {
+                                                        return Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadiusDirectional
+                                                                    .circular(
+                                                                        8),
+                                                            color: const Color
+                                                                .fromARGB(255,
+                                                                196, 195, 195),
+                                                          ),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  horizontal: 4,
+                                                                  vertical: 0),
+                                                          child: Text(
+                                                            cat,
+                                                            style: const TextStyle(
+                                                                fontSize: 10,
+                                                                color: Colors
+                                                                    .white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        );
+                                                      }).toList(),
+                                                    ))
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const Text(
+                                                      "Status:",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      viewModel
+                                                          .todos[index].isDone,
+                                                      style: const TextStyle(
+                                                          color: Colors.grey),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                         ],
-                                      ),
-                                  ],
-                                )),
-                          ),
-                        ),
-                      );
-                    }),
-              ),
-            ),
+                                      )),
+                                ),
+                              ),
+                            );
+                          }),
+                    ),
+                  ),
           ],
         ),
       ),

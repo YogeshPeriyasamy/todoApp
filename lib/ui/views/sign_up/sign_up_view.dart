@@ -134,7 +134,7 @@ class SignUpView extends StackedView<SignUpViewModel> {
                                   : Icons.visibility)))),
                 ),
                 if (viewModel.formMessage.isNotEmpty)
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                 Align(

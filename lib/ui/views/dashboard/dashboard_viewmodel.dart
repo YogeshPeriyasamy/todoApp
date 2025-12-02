@@ -4,7 +4,6 @@ import 'package:realtodo/app/app.router.dart';
 import 'package:realtodo/services/prefs_service_service.dart';
 import 'package:realtodo/services/supabase_service.dart';
 import 'package:realtodo/services/themetoggle_service.dart';
-import 'package:realtodo/ui/views/addtask/addtask_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -26,7 +25,7 @@ class DashboardViewModel extends BaseViewModel {
   String selectedCategory = "";
 
   String searchedText = "";
-  TextEditingController serarchController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
 
   String totalTasks = "";
   String completedTasks = "";
@@ -45,8 +44,9 @@ class DashboardViewModel extends BaseViewModel {
 
   Future<void> getList() async {
     print("get list called");
+    setBusy(true);
     _todos = await _supaBaseService.fetchTodos();
-
+    setBusy(false);
     print("todos list fetched $_todos");
     print("todos list fetched: ${_todos.map((t) => t.title).toList()}");
 
