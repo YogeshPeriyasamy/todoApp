@@ -20,8 +20,18 @@ class StartupView extends StackedView<StartupViewModel> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'STACKED',
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.w900),
+              'TO-DO',
+              style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.w900,
+                  color: Color.fromARGB(255, 2, 42, 75)),
+            ),
+            Text(
+              'Better note it than forget it!',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.grey),
             ),
             Row(
               mainAxisSize: MainAxisSize.min,

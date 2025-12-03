@@ -33,6 +33,11 @@ class DashboardViewModel extends BaseViewModel {
 
   List<int> expandedList = [];
 
+  bool isSwitchInteracting = false;
+
+  void onSwitchStart() => isSwitchInteracting = true;
+  void onSwitchEnd() => isSwitchInteracting = false;
+
   void toExpandList(int index) {
     if (expandedList.contains(index)) {
       expandedList.remove(index);
@@ -119,6 +124,13 @@ class DashboardViewModel extends BaseViewModel {
 
     pendingTasks = (totalTasksLength - completedTasksLength).toString();
     notifyListeners();
+  }
+
+  void toggleStatus(bool value, int index, String id) async {
+    todos[index].isDone = value ? "Completed" : "Pending";
+    String currentStatus = todos[index].isDone;
+    await _supaBaseService.updateStatus(currentStatus, id);
+    getTaskStatus();
   }
 
   void logOut() async {

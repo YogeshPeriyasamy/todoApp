@@ -145,20 +145,22 @@ class DashboardView extends StackedView<DashboardViewModel> {
                                 shadowColor: viewModel.isDarkThemed
                                     ? Colors.white
                                     : Colors.black,
-                                child: InkWell(
-                                  onTap: () {
-                                    viewModel.toExpandList(index);
-                                  },
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(8)),
-                                      padding: const EdgeInsets.all(10),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8)),
+                                    padding: const EdgeInsets.all(10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            if (!viewModel
+                                                .isSwitchInteracting) {
+                                              viewModel.toExpandList(index);
+                                            }
+                                          },
+                                          child: Row(
                                             children: [
                                               Expanded(
                                                 child: Text(
@@ -192,113 +194,229 @@ class DashboardView extends StackedView<DashboardViewModel> {
                                                   ))
                                             ],
                                           ),
-                                          if (viewModel.expandedList
-                                              .contains(index))
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                const SizedBox(
-                                                  height: 8,
-                                                ),
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    const Text(
-                                                      "Description:",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold),
+                                        ),
+                                        if (viewModel.expandedList
+                                            .contains(index))
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    "Description:",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      viewModel.todos[index]
+                                                          .description,
+                                                      style: const TextStyle(
+                                                          color: Colors.grey),
+                                                      softWrap: true,
                                                     ),
-                                                    const SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Expanded(
-                                                      child: Text(
-                                                        viewModel.todos[index]
-                                                            .description,
-                                                        style: const TextStyle(
-                                                            color: Colors.grey),
-                                                        softWrap: true,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    const Text(
-                                                      "Categories:",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Expanded(
-                                                        child: Wrap(
-                                                      spacing: 4,
-                                                      runSpacing: 4,
-                                                      children: viewModel
-                                                          .todos[index]
-                                                          .categories
-                                                          .map<Widget>((cat) {
-                                                        return Container(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadiusDirectional
-                                                                    .circular(
-                                                                        8),
-                                                            color: const Color
-                                                                .fromARGB(255,
-                                                                196, 195, 195),
-                                                          ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  const Text(
+                                                    "Categories:",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Expanded(
+                                                      child: Wrap(
+                                                    spacing: 4,
+                                                    runSpacing: 4,
+                                                    children: viewModel
+                                                        .todos[index].categories
+                                                        .map<Widget>((cat) {
+                                                      return Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadiusDirectional
+                                                                  .circular(8),
+                                                          color: const Color
+                                                              .fromARGB(255,
+                                                              196, 195, 195),
+                                                        ),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 4,
+                                                                vertical: 0),
+                                                        child: Text(
+                                                          cat,
+                                                          style: const TextStyle(
+                                                              fontSize: 10,
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      );
+                                                    }).toList(),
+                                                  ))
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Row(
+                                                      children: [
+                                                        const Text(
+                                                          "Status:",
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Container(
                                                           padding:
                                                               const EdgeInsets
                                                                   .symmetric(
-                                                                  horizontal: 4,
-                                                                  vertical: 0),
+                                                                  horizontal:
+                                                                      5),
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8),
+                                                              color: viewModel
+                                                                          .todos[
+                                                                              index]
+                                                                          .isDone ==
+                                                                      "Pending"
+                                                                  ? Colors.green
+                                                                  : Colors
+                                                                      .grey),
                                                           child: Text(
-                                                            cat,
-                                                            style: const TextStyle(
-                                                                fontSize: 10,
-                                                                color: Colors
-                                                                    .white,
+                                                            "Pending",
+                                                            style: TextStyle(
+                                                                fontSize: 9,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .bold),
+                                                                        .w800,
+                                                                color: viewModel
+                                                                            .todos[
+                                                                                index]
+                                                                            .isDone ==
+                                                                        "Pending"
+                                                                    ? Colors
+                                                                        .white
+                                                                    : const Color
+                                                                        .fromARGB(
+                                                                        255,
+                                                                        101,
+                                                                        101,
+                                                                        101)),
                                                           ),
-                                                        );
-                                                      }).toList(),
-                                                    ))
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    const Text(
-                                                      "Status:",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  horizontal:
+                                                                      5),
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8),
+                                                              color: viewModel
+                                                                          .todos[
+                                                                              index]
+                                                                          .isDone ==
+                                                                      "Completed"
+                                                                  ? Colors.green
+                                                                  : Colors
+                                                                      .grey),
+                                                          child: Text(
+                                                            "Completed",
+                                                            style: TextStyle(
+                                                                fontSize: 9,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w800,
+                                                                color: viewModel
+                                                                            .todos[
+                                                                                index]
+                                                                            .isDone ==
+                                                                        "Completed"
+                                                                    ? Colors
+                                                                        .white
+                                                                    : const Color
+                                                                        .fromARGB(
+                                                                        255,
+                                                                        101,
+                                                                        101,
+                                                                        101)),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                    const SizedBox(
-                                                      width: 5,
+                                                  ),
+                                                  Listener(
+                                                    onPointerDown: (_) =>
+                                                        viewModel
+                                                            .onSwitchStart(),
+                                                    onPointerUp: (_) =>
+                                                        viewModel.onSwitchEnd(),
+                                                    child: SizedBox(
+                                                      height: 7,
+                                                      width: 18,
+                                                      child: Transform.scale(
+                                                        scale: 0.7,
+                                                        child: Switch(
+                                                          value: viewModel
+                                                                  .todos[index]
+                                                                  .isDone ==
+                                                              "Completed",
+                                                          onChanged: (val) {
+                                                            viewModel
+                                                                .toggleStatus(
+                                                                    val,
+                                                                    index,
+                                                                    viewModel
+                                                                        .todos[
+                                                                            index]
+                                                                        .id);
+                                                          },
+                                                          activeThumbColor:
+                                                              Colors.blue,
+                                                        ),
+                                                      ),
                                                     ),
-                                                    Text(
-                                                      viewModel
-                                                          .todos[index].isDone,
-                                                      style: const TextStyle(
-                                                          color: Colors.grey),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                        ],
-                                      )),
-                                ),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                      ],
+                                    )),
                               ),
                             );
                           }),

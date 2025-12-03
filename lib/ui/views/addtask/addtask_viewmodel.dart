@@ -5,6 +5,7 @@ import 'package:realtodo/services/supabase_service.dart';
 import 'package:realtodo/services/themetoggle_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../models/todo_model.dart';
 import 'dart:math'; // to generate random id
 
@@ -22,6 +23,8 @@ class AddtaskViewModel extends BaseViewModel {
 
   List<String> selectedCategories = [];
   List<String> categories = ["Health", "Personal", "Home", "Urgent", "Work"];
+
+  final currentUserId = Supabase.instance.client.auth.currentUser?.id;
 
   void setCategory(category) {
     if (selectedCategories.contains(category)) {
@@ -55,7 +58,9 @@ class AddtaskViewModel extends BaseViewModel {
         description: description,
         isDone: status,
         categories: selectedCategories,
-        createdAt: DateTime.now());
+        createdAt: DateTime.now(),
+        userId: currentUserId,
+        );
 
     if (toUpdateId == null) {
       await supaBaseService.addTodo(newTodo);

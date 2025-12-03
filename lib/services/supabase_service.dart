@@ -7,9 +7,11 @@ class SupabaseService {
 
   Future<List<Todo>> fetchTodos() async {
     try {
+      String currentUserId = Supabase.instance.client.auth.currentUser!.id;
       final response = await _client
           .from("todolist")
           .select()
+          .eq("userId", currentUserId)
           .order("created_at", ascending: true);
       print("response from fetchtodo $response");
       final List dataList = response as List;
@@ -46,6 +48,14 @@ class SupabaseService {
       await _client.from("todolist").delete().eq("id", id);
     } catch (err) {
       print("error in deleting the lsit $err");
+    }
+  }
+
+  Future<void> updateStatus(String str, String id) async {
+    try {
+      await _client.from("todolist").update({"isDone": str}).eq("id", id);
+    } catch (err) {
+      print("error in changing status $err");
     }
   }
 }

@@ -5,6 +5,7 @@ class Todo {
   String isDone;
   List<String> categories;
   DateTime createdAt;
+  String? userId;
 
   Todo(
       {required this.id,
@@ -12,7 +13,8 @@ class Todo {
       required this.description,
       required this.isDone,
       required this.categories,
-      required this.createdAt});
+      required this.createdAt,
+      required this.userId});
 
   Map<String, dynamic> toJson() {
     return {
@@ -21,6 +23,7 @@ class Todo {
       'description': description,
       'isDone': isDone,
       'categories': categories,
+      'userId':userId
     };
   }
 
@@ -32,6 +35,7 @@ class Todo {
       isDone: json['isDone'],
       categories: List<String>.from(json["categories"] ?? []),
       createdAt: DateTime.parse(json['created_at']),
+      userId:json['userId'],
     );
   }
 }

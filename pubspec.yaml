@@ -24,9 +24,17 @@ dev_dependencies:
   mockito: ^5.4.1
   stacked_generator: ^1.3.3
   golden_toolkit: ^0.15.0
+  flutter_launcher_icons: ^0.13.0
 
 flutter:
   uses-material-design: true
 
   assets:
     - .env
+    - assets/icons/to-do.png
+
+flutter_launcher_icons:
+  android: "launcher_icon_new"
+  ios: true
+  image_path: "./assets/icons/to-do.png"
+  min_sdk_android: 21
