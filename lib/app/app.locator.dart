@@ -12,6 +12,7 @@ import 'package:stacked_services/src/navigation/navigation_service.dart';
 import 'package:stacked_shared/stacked_shared.dart';
 
 import '../services/prefs_service_service.dart';
+import '../services/resend_service.dart';
 import '../services/supabase_service.dart';
 import '../services/themetoggle_service.dart';
 
@@ -32,4 +33,5 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => PrefsServiceService());
   locator.registerLazySingleton(() => ThemetoggleService());
   locator.registerLazySingleton(() => SupabaseService());
+  locator.registerLazySingleton(() => ResendService());
 }

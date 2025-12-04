@@ -53,14 +53,14 @@ class AddtaskViewModel extends BaseViewModel {
     String taskId = random.nextInt(1000000).toString();
 
     Todo newTodo = Todo(
-        id: taskId,
-        title: title,
-        description: description,
-        isDone: status,
-        categories: selectedCategories,
-        createdAt: DateTime.now(),
-        userId: currentUserId,
-        );
+      id: taskId,
+      title: title,
+      description: description,
+      isDone: status,
+      categories: selectedCategories,
+      createdAt: DateTime.now(),
+      userId: currentUserId,
+    );
 
     if (toUpdateId == null) {
       await supaBaseService.addTodo(newTodo);

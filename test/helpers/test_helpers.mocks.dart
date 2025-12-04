@@ -9,7 +9,9 @@ import 'dart:ui' as _i6;
 import 'package:flutter/material.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i3;
+import 'package:realtodo/models/todo_model.dart' as _i10;
 import 'package:realtodo/services/prefs_service_service.dart' as _i7;
+import 'package:realtodo/services/resend_service.dart' as _i11;
 import 'package:realtodo/services/supabase_service.dart' as _i9;
 import 'package:realtodo/services/themetoggle_service.dart' as _i8;
 import 'package:stacked_services/stacked_services.dart' as _i2;
@@ -754,4 +756,74 @@ class MockThemetoggleService extends _i1.Mock
 /// A class which mocks [SupabaseService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSupabaseService extends _i1.Mock implements _i9.SupabaseService {}
+class MockSupabaseService extends _i1.Mock implements _i9.SupabaseService {
+  @override
+  _i5.Future<List<_i10.Todo>> fetchTodos() => (super.noSuchMethod(
+        Invocation.method(
+          #fetchTodos,
+          [],
+        ),
+        returnValue: _i5.Future<List<_i10.Todo>>.value(<_i10.Todo>[]),
+        returnValueForMissingStub:
+            _i5.Future<List<_i10.Todo>>.value(<_i10.Todo>[]),
+      ) as _i5.Future<List<_i10.Todo>>);
+
+  @override
+  _i5.Future<void> addTodo(_i10.Todo? newTodo) => (super.noSuchMethod(
+        Invocation.method(
+          #addTodo,
+          [newTodo],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> updateTodo(
+    _i10.Todo? updatedTodo,
+    String? id,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateTodo,
+          [
+            updatedTodo,
+            id,
+          ],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> deleteTodo(String? id) => (super.noSuchMethod(
+        Invocation.method(
+          #deleteTodo,
+          [id],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> updateStatus(
+    String? str,
+    String? id,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateStatus,
+          [
+            str,
+            id,
+          ],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+}
+
+/// A class which mocks [ResendService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockResendService extends _i1.Mock implements _i11.ResendService {}

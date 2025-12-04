@@ -11,6 +11,7 @@ import 'package:realtodo/services/themetoggle_service.dart';
 import 'package:realtodo/ui/views/login/login_view.dart';
 import 'package:realtodo/ui/views/sign_up/sign_up_view.dart';
 import 'package:realtodo/services/supabase_service.dart';
+import 'package:realtodo/services/resend_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -30,6 +31,7 @@ import 'package:realtodo/services/supabase_service.dart';
     LazySingleton(classType: PrefsServiceService),
     LazySingleton(classType: ThemetoggleService),
     LazySingleton(classType: SupabaseService),
+    LazySingleton(classType: ResendService),
 // @stacked-service
   ],
   bottomsheets: [

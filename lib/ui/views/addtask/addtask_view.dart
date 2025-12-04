@@ -61,8 +61,8 @@ class AddtaskView extends StackedView<AddtaskViewModel> {
                       : const Color.fromARGB(244, 255, 255, 255),
                   boxShadow: List.filled(
                       1, const BoxShadow(blurRadius: 3, color: Colors.grey))),
-              padding:
-                  const EdgeInsets.only(top: 30, bottom: 30, left: 20, right: 20),
+              padding: const EdgeInsets.only(
+                  top: 30, bottom: 30, left: 20, right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

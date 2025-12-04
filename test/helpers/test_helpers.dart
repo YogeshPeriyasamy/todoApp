@@ -5,6 +5,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:realtodo/services/prefs_service_service.dart';
 import 'package:realtodo/services/themetoggle_service.dart';
 import 'package:realtodo/services/supabase_service.dart';
+import 'package:realtodo/services/resend_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -18,6 +19,7 @@ import 'test_helpers.mocks.dart';
     MockSpec<PrefsServiceService>(onMissingStub: OnMissingStub.returnDefault),
     MockSpec<ThemetoggleService>(onMissingStub: OnMissingStub.returnDefault),
     MockSpec<SupabaseService>(onMissingStub: OnMissingStub.returnDefault),
+    MockSpec<ResendService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
   ],
 )
@@ -28,6 +30,7 @@ void registerServices() {
   getAndRegisterPrefsServiceService();
   getAndRegisterThemetoggleService();
   getAndRegisterSupabaseService();
+  getAndRegisterResendService();
 // @stacked-mock-register
 }
 
@@ -103,6 +106,13 @@ MockSupabaseService getAndRegisterSupabaseService() {
   _removeRegistrationIfExists<SupabaseService>();
   final service = MockSupabaseService();
   locator.registerSingleton<SupabaseService>(service);
+  return service;
+}
+
+MockResendService getAndRegisterResendService() {
+  _removeRegistrationIfExists<ResendService>();
+  final service = MockResendService();
+  locator.registerSingleton<ResendService>(service);
   return service;
 }
 // @stacked-mock-create

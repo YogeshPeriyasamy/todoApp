@@ -23,7 +23,7 @@ class Todo {
       'description': description,
       'isDone': isDone,
       'categories': categories,
-      'userId':userId
+      'userId': userId
     };
   }
 
@@ -35,7 +35,7 @@ class Todo {
       isDone: json['isDone'],
       categories: List<String>.from(json["categories"] ?? []),
       createdAt: DateTime.parse(json['created_at']),
-      userId:json['userId'],
+      userId: json['userId'],
     );
   }
 }

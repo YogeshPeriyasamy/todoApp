@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:realtodo/app/app.locator.dart';
 import 'package:realtodo/app/app.router.dart';
 import 'package:realtodo/services/prefs_service_service.dart';
+import 'package:realtodo/services/resend_service.dart';
 import 'package:realtodo/services/supabase_service.dart';
 import 'package:realtodo/services/themetoggle_service.dart';
 import 'package:stacked/stacked.dart';
@@ -14,6 +15,7 @@ class DashboardViewModel extends BaseViewModel {
   final NavigationService navigator = locator<NavigationService>();
   final _themeService = locator<ThemetoggleService>();
   final _supaBaseService = locator<SupabaseService>();
+  final _reSendService = locator<ResendService>();
 
   List<Todo> _todos = [];
   List get todos => _todos;
@@ -131,6 +133,9 @@ class DashboardViewModel extends BaseViewModel {
     String currentStatus = todos[index].isDone;
     await _supaBaseService.updateStatus(currentStatus, id);
     getTaskStatus();
+    if (currentStatus == "Completed") {
+      await _reSendService.sendEmail();
+    }
   }
 
   void logOut() async {
