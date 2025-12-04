@@ -134,7 +134,7 @@ class DashboardViewModel extends BaseViewModel {
     await _supaBaseService.updateStatus(currentStatus, id);
     getTaskStatus();
     if (currentStatus == "Completed") {
-      await _reSendService.sendEmail();
+      await _reSendService.sendEmail(todos[index].title);
     }
   }
 

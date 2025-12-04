@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ResendService {
-  Future<void> sendEmail() async {
+  Future<void> sendEmail(String title) async {
     try {
       final String apiKey = dotenv.get("Resend_Api_Key");
       final user = await Supabase.instance.client.auth.currentUser;
@@ -17,7 +17,7 @@ class ResendService {
 
       String subject = 'Task complettion update';
       String html =
-          '<div><p>Hello $userName</p><h1>Congragulation for completing one task</h1></div>';
+          '<div><p>Hello $userName</p><h1>Congragulation for completing $title task</h1></div>';
       if (apiKey == null) {
         throw Exception("Api key is missing");
       }
